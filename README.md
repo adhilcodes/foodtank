@@ -18,7 +18,12 @@ Transport Food Anyone who can transport food, can contribute by delivering food 
 Request Food NGOs or people who manage orphanages/shelter homes can request for food based on their requirements.
 
 
-##  
+##  Tech stack
+
+     - Nodejs
+     - express.js
+     -  - MongoBD
+     - Handlebars
 
 ## CONTRIBUTORS
   [Abdul Adhil PK](adhilcodes.me)    
