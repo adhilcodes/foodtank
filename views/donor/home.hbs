@@ -10,6 +10,32 @@
 
 
 <a href="donor/list" class="btn btn-primary mt-2">Dashboard</a> --}}
+<script>
+    function locate() {
+
+        const locInfo = document.querySelector('#locInfo');
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                document.donateForm.latitude.value = lat
+                const long = position.coords.longitude;
+                document.donateForm.longitude.value = long
+                alert("Location Fetched Successfully")
+
+            });
+        }
+    }
+    
+    function validateAndSend() {
+        if (donateForm.address.value == '' && donateForm.latitude.value == '') {
+                alert('Please provide pickup location!');
+                return false;
+            }
+            else {
+                donateForm.submit();
+            }
+        }
+</script>
 
 <header class="header-area">
     <div class="navbar-area">
@@ -17,30 +43,34 @@
             <div class="row">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="/">
                             <img src="/assets/images/logo.svg" alt="Logo">
                         </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="toggler-icon"></span>
                             <span class="toggler-icon"></span>
                             <span class="toggler-icon"></span>
                         </button>
-
+                    
                         <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                             <ul id="nav" class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="page-scroll" href="#home">Home</a>
+                                    <a class="page-scroll" href="/">Home</a>
                                 </li>
-                            
+                    
+                                <li class="nav-item">
+                    
+                                    <a class="login-btn" data-scroll-nav="0" href="/logout">
+                                        <p class="login-btn-text">LOGOUT</p>
+                                    </a>
+                    
+                                </li>
+                    
                             </ul>
                         </div> <!-- navbar collapse -->
-                        
-                        <div class="navbar-btn d-none d-sm-inline-block">
-                            <a class="main-btn" data-scroll-nav="0" href="/logout" rel="nofollow">LOGOUT</a>
-                        </div>
-                    </nav> <!-- navbar -->
+                    
+                    </nav>
                 </div>
             </div> <!-- row -->
         </div> <!-- container -->
@@ -48,47 +78,89 @@
     <div id="home" class="header-hero bg-image" style="background-image: url(/assets/images/banner-bg.svg)">
         <div class="container">
             <div class="row">
-
                 <div class="col-12">
 
                     <div class="page-content">
                         <div class="home-head col-12 col-md-10">
-                            <p class="user-name">Hi {{user.name}}</p>
+                            <p class="user-name-head wow fadeInUp" data-wow-duration="1.3s" data-wow-delay="0.3s">Hi {{user.name}}</p><br>
+                            <p class="user-name wow fadeInUp" data-wow-duration="1.3s" data-wow-delay="0.1s">Total Foods Donated: {{donatedCount}}<br>
+                            Bio: {{user.bio}}</p>
                             <a class="main-btn" data-scroll-nav="0" href="donor/list" rel="nofollow">DASHBOARD</a>
                         </div>
                         <p class="page-head">DONATE FOOD</p>
 
-                        <form class="col-12 col-md-6 col-lg-4" action="donor/addfood" method="post" enctype="multipart/form-data">
+                    <form name="donateForm" class="" action="donor/addfood" method="post" enctype="multipart/form-data">
                             {{#if donorMessage}}
-                            <p class="form-message">{{donorMessage}}</p>
+                            <p class="form-message col-12 col-md-7">{{donorMessage}}</p>
                             {{/if}}
-                            <div class="form-group">
-                                <label class="form-label">Total Food Cooked</label>
-                                <input type='text' class="form-control" name='totalFoodCooked' id='totalFoodCooked' required="required">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Wasted Food Quantity</label>
-                                <input type='text' class="form-control" name='foodWasteQty' required="required">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Food Pickup Time</label>
+                            <div class="form-group row">
+                                <label class="col-12 col-md-2 col-form-label">
+                                    <p class="form-label">Quantity Cooked</p></label>
+                                    <div class="col-10 col-md-5">
+                                <input type='number' class="form-control" name='totalFoodCooked' id='totalFoodCooked' required="required" placeholder="Enter Quantity of Food Cooked (in Kilograms)">
+                            </div></div>
+                            <div class="form-group row">
+                                <label class="col-12 col-md-2 col-form-label">
+                                    <p class="form-label">Quantity Wasted</p></label>
+                                    <div class="col-10 col-md-5">
+                                <input type='number' class="form-control" name='foodWasteQty' required="required" placeholder="Enter Quantity of Food Wasted (in Kilograms)">
+                            </div></div>
+                            <div class="form-group row">
+                                <label class="col-12 col-md-2 col-form-label">
+                                    <p class="form-label">Pickup Time</p></label>
+                                    <div class="col-10 col-md-5">
                                 <input type="datetime-local" class="form-control" name='pickUpTime' id='pickUpTime' required="required">
+                            </div></div>
+                            <div class="form-group row">
+                                <label class="col-12 col-md-2 col-form-label" for="">
+                                    <p class="form-label">Image</p></label>
+                                    <div class="col-10 col-md-5">
+                                <input type="file" class="form-control upload-btn" name="image" class="form-control" required="required"
+                                    accept="image/*">
+                        
+                          </div>      
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="">Image</label>
-                                <input type="file" class="form-control upload-btn" name="image" class="form-control">
+                            <div class="form-group row">
+                                <label class="col-12 col-md-2 col-form-label">
+                                    <p class="form-label">Location</p>
+                                </label>
+                                <div class="col-10 col-md-5">
+                                    <textarea class="form-control" name="address" placeholder="Enter Pickup Location"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-9">
+                            <p class="location-or">OR</p>
+                            </div>
+                            
+                            <div class="form-group col-12 col-md-9">
+                                <div class="col-12 col-md-2 col-form-label"></div>
+                                <div class="col-12 col-md-12 location-btn">
+                                    <a onClick='locate();' class="btn btn-success">Give Live Location</a>
+                                </div>
+                            </div>
+                               
                                 
-                            </div>
-                        <div class="form-group">
-                                <button type="submit" class="main-btn mt-2">Submit</button>
+                                
+                                <input type="hidden" name="latitude"></input>
+                                <input type="hidden" name="longitude"></input>
+
+                            
+                        <div class="form-group col-12 col-md-7">
+                                <button type="submit" class="main-btn mt-2" style="float: right;" onclick="validateAndSend()">Submit</button>
                         </div>
                             
-                        </form>
+                    </form>
+                    
+
+                    
+
                     </div> <!-- header hero content -->
                 </div>
             </div> <!-- row -->
           
         </div> <!-- container -->
+        
         <div id="particles-1" class="particles"></div>
     </div> <!-- header hero -->
+
 </header>

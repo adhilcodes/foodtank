@@ -21,11 +21,16 @@ const verifyRole = (req, res, next) => {
 }
 router.get('/', verifyLogin, verifyRole, async (req, res, next)=> {
     let user = req.session.user
+    let uid = req.session.user._id
+    donorHelper.getDonatedCount(uid).then((donatedCount) => {
+        res.render('donor/home', { user, donorMessage, donatedCount});
+        donorMessage = ""
+    })
 
-    res.render('donor/home', { user, donorMessage });
-    donorMessage = ""
+    
 });
-router.post('/addfood', verifyLogin, verifyRole, async (req, res, next)=> {
+router.post('/addfood', verifyLogin, verifyRole, async (req, res, next) => {
+    console.log(req.body)
     let user = req.session.user._id
     req.body.user = user
     // console.log("Files")
@@ -62,6 +67,7 @@ router.get('/list', verifyLogin, verifyRole, (req, res) => {
 
 router.get('/edit-product/:id', async (req, res) => {
     let food = await donorHelper.getFoodDetails(req.params.id)
+    console.log(food)
     res.render('donor/edit-product', { food })
 })
 router.post('/edit-product/:id', (req, res) => {

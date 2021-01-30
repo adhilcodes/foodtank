@@ -32,3 +32,14 @@ $(document).ready(function () {
     const countupEls = document.querySelectorAll('.timer');
     countupEls.forEach(animateCountUp);
 })
+
+
+function validateAndSend() {
+    if (donateForm.address.value == '' && donateForm.latitude.value == '') {
+        alert('Please provide pickup location!');
+        return false;
+    }
+    else {
+        donateForm.submit();
+    }
+}

@@ -18,11 +18,16 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    latitude: {
-        type: String    
+    phone: {
+        type: Number,
+        required:true
     },
-    longitude: {
-        type: String
+    address: {
+        type: String,
+        required: true
+    },
+    bio:{
+        type:String
     }
 });
 var userModel = mongoose.model('User', userSchema)

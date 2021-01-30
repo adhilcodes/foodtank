@@ -5,30 +5,34 @@
             <div class="row">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="/">
                             <img src="/assets/images/logo.svg" alt="Logo">
                         </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="toggler-icon"></span>
                             <span class="toggler-icon"></span>
                             <span class="toggler-icon"></span>
                         </button>
-
+                    
                         <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                             <ul id="nav" class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="page-scroll" href="#home">Home</a>
+                                    <a class="page-scroll" href="/">Home</a>
                                 </li>
-
+                    
+                                <li class="nav-item">
+                    
+                                    <a class="login-btn" data-scroll-nav="0" href="/logout">
+                                        <p class="login-btn-text">LOGOUT</p>
+                                    </a>
+                    
+                                </li>
+                    
                             </ul>
                         </div> <!-- navbar collapse -->
-
-                        <div class="navbar-btn d-none d-sm-inline-block">
-                            <a class="main-btn" data-scroll-nav="0" href="/logout" rel="nofollow">LOGOUT</a>
-                        </div>
-                    </nav> <!-- navbar -->
+                    
+                    </nav>
                 </div>
             </div> <!-- row -->
         </div> <!-- container -->
@@ -39,7 +43,10 @@
                 <div class="col-12">
                     <div class="page-content table-responsive">
                         <div class="home-head col-12 col-md-10">
-                            <p class="user-name">Hi {{user.name}}</p>
+                            <p class="user-name-head wow fadeInUp" data-wow-duration="1.3s" data-wow-delay="0.3s">Hi {{user.name}}</p><br>
+                            <p class="user-name wow fadeInUp" data-wow-duration="1.3s" data-wow-delay="0.1s">Total Foods Accepted: {{acceptedCount}}<br>
+                                Bio: {{user.bio}}</p>
+                        
                             <a class="main-btn " data-scroll-nav="0" href="acceptor/list" rel="nofollow">DASHBOARD</a>
                         </div>
                         <p class="page-head">AVAILABLE FOODS</p>
@@ -51,7 +58,7 @@
                                     <th scope="col" class="waste-food">Waste Food</th>
                                     <th scope="col" class="pickup-time">Pickup Time</th>
                                     <th scope="col" class="food-img">Image</th>
-                                    <th scope="col" class="donor-head">Donor</th>
+                                    <th scope="col" class="donor-head">Location</th>
                         
                         
                                 </tr>
@@ -68,23 +75,28 @@
                                     <td class="pickup-time">{{this.pickUpTime}}</td>
                                     <td class="food-img"><img style="width:100px;height:100px;" src="/food-images/{{this._id}}.jpg" class=""></td>
                                     <td class="food-donor">
-                                        <a href="/profile/{{this.donorId}}" class="btn btn-primary">Donor Profile</a>
-                                    {{#each this.user}}
+                                        
+                                        {{#if address}}
+                                        
+                                        {{this.address}}
+                                        <br>
+                                        {{/if}}
+                                        
+                                       
                                     
-                                        {{!-- {{this.name}}<br>{{this.email}} --}}
-                                  
                                     
                                         {{#if this.latitude}}
-                                        <br>
+                                        
                                         <a href="https://www.openstreetmap.org/#map=19/{{this.latitude}}/{{this.longitude}}"
                                             class="btn btn-success mt-2">Donor Location</a>
                                         {{/if}}
-                                        {{/each}}
+                                        
                                     </td>
                                     
                                     <td class="table-actions">
+                                        <a href="/profile/{{this.donorId}}" class="btn btn-primary mt-2">Donor Profile</a>
                                     
-                                        <a href="/acceptor/accept/{{this._id}}" class="btn btn-danger"
+                                        <a href="/acceptor/accept/{{this._id}}" class="btn btn-danger mt-2"
                                             onClick="return confirm('Do you want to Accept?')">Accept</a>
                                     </td>
                         

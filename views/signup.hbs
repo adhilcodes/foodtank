@@ -1,68 +1,41 @@
 
     
 
-<script>
-    function locate() {
-        
-        const locInfo = document.querySelector('#locInfo');
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                document.signup.latitude.value = lat
-                const long = position.coords.longitude;
-                document.signup.longitude.value = long
-                alert("Location Fetched Successfully")
-
-            });
-        }
-    }
-
-   
-</script>
 
 <header class="header-area">
     <div class="navbar-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="index.html">
-                            <img src="/assets/images/logo.svg" alt="Logo">
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="toggler-icon"></span>
-                            <span class="toggler-icon"></span>
-                            <span class="toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
-                            <ul id="nav" class="navbar-nav ml-auto">
-                                <li class="nav-item active">
-                                    <a class="page-scroll" href="#home">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="page-scroll" href="#features">Features</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="page-scroll" href="#about">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="page-scroll" href="#facts">Why</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="page-scroll" href="#team">Team</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="page-scroll" href="#blog">Blog</a>
-                                </li>
-                            </ul>
-                        </div> <!-- navbar collapse -->
-                        <div class="navbar-btn d-none d-sm-inline-block">
-                            <a class="main-btn" data-scroll-nav="0" href="/login" rel="nofollow">LOGIN</a>
-                        </div>
-                    </nav> <!-- navbar -->
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="/">
+                        <img src="/assets/images/logo.svg" alt="Logo">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="toggler-icon"></span>
+                        <span class="toggler-icon"></span>
+                        <span class="toggler-icon"></span>
+                    </button>
+                
+                    <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                        <ul id="nav" class="navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="page-scroll" href="/">Home</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                
+                                <a class="login-btn" data-scroll-nav="0" href="/login">
+                                    <p class="login-btn-text">LOGIN</p>
+                                </a>
+                
+                            </li>
+                
+                        </ul>
+                    </div> <!-- navbar collapse -->
+                
+                </nav>
                 </div>
             </div> <!-- row -->
         </div> <!-- container -->
@@ -83,19 +56,26 @@
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-12 col-md-1 col-form-label"><p class="form-label">Email</p></label>
-                                    <div class="col-10 col-md-5"><input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                    <div class="col-10 col-md-5"><input type="email" class="form-control" name="email" id="exampleInputEmail1" required="required" aria-describedby="emailHelp"
                                         placeholder="Enter Email">
                                 </div></div>
                                 <div class="form-group row">
                                 <label class="col-12 col-md-1 col-form-label"><p class="form-label">Phone</p></label>
-                                <div class="col-10 col-md-5"><input type="tel" class="form-control" name="phone" id="" 
+                                <div class="col-10 col-md-5"><input type="tel" class="form-control" required="required" name="phone" id="" 
                                     placeholder="Enter Contact Number">
                                 </div></div>
                                 <div class="form-group row">
                                     <label class="col-12 col-md-1 col-form-label"><p class="form-label">Password</p></label>
-                                    <div class="col-10 col-md-5"><input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
+                                    <div class="col-10 col-md-5"><input type="password" class="form-control" name="password" id="password" required="required" placeholder="Enter Password">
                                 </div></div>
-                            
+                            <div class="form-group row">
+                                <label class="col-12 col-md-1 col-form-label">
+                                    <p class="form-label">Address</p>
+                                </label>
+                                <div class="col-10 col-md-5">
+                                    <textarea class="form-control" required="required" name="address" placeholder="Enter Address"></textarea>
+                                </div>
+                            </div>
                             
                             {{!-- <a onClick='locate();' class="btn btn-danger">Get Location</a> --}}
                             {{!-- <h1 id='posStatus'></h1> --}}
@@ -109,6 +89,14 @@
                                     <option value="acceptor">Acceptor</option>
                                 
                                 </select></div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-12 col-md-1 col-form-label">
+                                    <p class="form-label">Bio</p>
+                                </label>
+                                <div class="col-10 col-md-5">
+                                    <textarea class="form-control" name="bio" placeholder="Add a short Bio for others"></textarea>
+                                </div>
                             </div>
                             <a class="loginform-link" href="/login">Already have an account?</a>
                             

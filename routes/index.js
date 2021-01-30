@@ -3,13 +3,26 @@ var router = express.Router();
 var loginHelper = require('../helpers/login-helpers')
 var userHelper = require('../helpers/user-helpers')
 let nodeGeocoder = require('node-geocoder');
+var donorHelper = require('../helpers/donor-helpers');
+var acceptorHelper = require('../helpers/acceptor-helpers')
 
+const { save } = require('no-avatar');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   let user = req.session.user
-  console.log(user)
+  var btnText = ""
+  if (user) {
+    if (user.role === "donor") {
+      btnText="DONATE"
+    } else {
+      btnText="ACCEPT"
+    }
+  } else {
+    btnText="LOGIN"
+  }
+
   userHelper.getCount().then((response) => {
-    res.render('index',{response});
+    res.render('index',{response, btnText});
   })
   
 });
@@ -24,7 +37,15 @@ router.get('/login', function (req, res, next) {
   req.session.loginErr = false
 });
 router.get('/signup', function (req, res, next) {
-  res.render('signup');
+  if (req.session.loggedIn) {
+    if (req.session.user.role === "donor")
+      res.redirect('/donor')
+    else
+      res.redirect('/acceptor')
+  } else {
+    res.render('signup');
+  }
+  
 });
 router.post('/signup', async (req, res) => {
   console.log(req.body)
@@ -71,10 +92,25 @@ router.get('/logout', (req, res) => {
   req.session.destroy()
   res.redirect('/login')
 })
-router.get('/profile/:id', (req, res) => {
+router.get('/profile/:id',  (req, res) => {
   let userId = req.params.id
-  userHelper.findUser(userId).then((response) => {
-    
+  const savePath = './public/avatar/avatar.png';
+
+  userHelper.findUser(userId).then(async (response) => {
+    var options = {
+      text: response.name,
+    };
+    save(savePath, options, function (err) {
+      if (err) return console.log(err);
+      return console.log('avatar.png saved at path ' + savePath);
+    })
+    if (response.role === "donor")
+    {
+      response.donatedCount = await donorHelper.getDonatedCount(userId)
+    } else {
+      response.acceptedCount = await acceptorHelper.getAcceptedCount(userId)
+    }
+    console.log(response)
     res.render('profile',{response})
   })
 })

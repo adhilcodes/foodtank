@@ -4,7 +4,8 @@ var nodemailer = require('nodemailer');
 module.exports = {
     addFood: (userData)=>{
         return new Promise(async (resolve, reject) => {
-            await foodModel.create({ donorId: userData.user, totalFoodCooked: userData.totalFoodCooked, foodWasteQty: userData.foodWasteQty, pickUpTime: userData.pickUpTime}).then((data) => {
+            await foodModel.create({ donorId: userData.user, totalFoodCooked: userData.totalFoodCooked, foodWasteQty: userData.foodWasteQty, pickUpTime: userData.pickUpTime, address:userData.address, latitude:userData.latitude, longitude:userData.longitude })
+                .then((data) => {
                 console.log("Returned Data")
                 console.log(data._id)
                 resolve({ status: true,id:data._id })
@@ -60,7 +61,10 @@ module.exports = {
                 $set: {
                     totalFoodCooked: foodDetails.totalFoodCooked,
                     foodWasteQty: foodDetails.foodWasteQty,
-                    pickUpTime: foodDetails.pickUpTime
+                    pickUpTime: foodDetails.pickUpTime,
+                    address: foodDetails.address,
+                    latitude: foodDetails.latitude,
+                    longitude:foodDetails.longitude
                 }
             }).then((response) => {
                 resolve(response)
@@ -71,6 +75,13 @@ module.exports = {
     deleteFood: (foodId) => {
         return new Promise((resolve, reject) => {
             foodModel.deleteOne({ _id: foodId }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
+    getDonatedCount: (uid) => {
+        return new Promise((resolve, reject) => {
+            foodModel.countDocuments({ donorId: uid }).then((response)=> {
                 resolve(response)
             })
         })
