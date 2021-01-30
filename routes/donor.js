@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var donorHelper = require('../helpers/donor-helpers');
+var acceptorHelper = require('../helpers/acceptor-helpers')
+
 
 var donorMessage=""
 const verifyLogin = (req, res, next) => {
@@ -17,19 +19,35 @@ const verifyRole = (req, res, next) => {
         res.redirect('/acceptor')
     }
 }
-router.get('/', verifyLogin, verifyRole, function (req, res, next) {
+router.get('/', verifyLogin, verifyRole, async (req, res, next)=> {
     let user = req.session.user
+
     res.render('donor/home', { user, donorMessage });
     donorMessage = ""
 });
-router.post('/addfood', verifyLogin, verifyRole,function (req, res, next) {
+router.post('/addfood', verifyLogin, verifyRole, async (req, res, next)=> {
     let user = req.session.user._id
-    req.body.user=user
-    donorHelper.addFood(req.body).then((response) => {
+    req.body.user = user
+    // console.log("Files")
+    // console.log(req.files)
+    // upload.single('image')
+
+    
+    donorHelper.addFood(req.body).then(async(response) => {
         if (response.status) {
+            let image = req.files.image
+            console.log("ID"+response.id)
+            image.mv('./public/food-images/' + response.id + '.jpg' , (err) => {
+                if (!err) {
+                    console.log("Upload Success")
+                } else {
+                    console.log(err);
+                }
+            })
+            let acceptorList = await acceptorHelper.getAcceptorList()
+            // donorHelper.sendEmail(acceptorList)
             donorMessage = "Food Added Successfully"
             res.redirect('/donor')
-            
         }
     })
 });

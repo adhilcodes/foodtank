@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 var foodSchema = new mongoose.Schema({
-    uid: {
+    donorId: {
         type: Schema.Types.ObjectId,
         required: true,
     },
@@ -17,6 +17,12 @@ var foodSchema = new mongoose.Schema({
     pickUpTime: {
         type: Date,
         required: true
+    },
+    status: {
+        type:String
+    },
+    acceptorId: {
+        type: Schema.Types.ObjectId
     }
 });
 var foodModel = mongoose.model('Food', foodSchema)
