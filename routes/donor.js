@@ -53,11 +53,32 @@ router.post('/addfood', verifyLogin, verifyRole, async (req, res, next)=> {
 });
 router.get('/list', verifyLogin, verifyRole, (req, res) => {
     let user = req.session.user._id
+    let userDetails = req.session.user
     donorHelper.getAllFood(user).then((response) => {
         console.log("Fetched All Food");
-    
-        res.render('donor/dashboard', { response });
+        res.render('donor/dashboard', { response, userDetails });
     })
 })
 
+router.get('/edit-product/:id', async (req, res) => {
+    let food = await donorHelper.getFoodDetails(req.params.id)
+    res.render('donor/edit-product', { food })
+})
+router.post('/edit-product/:id', (req, res) => {
+    let id = req.params.id
+    donorHelper.updateFood(req.params.id, req.body).then(() => {
+        res.redirect('/donor/list')
+        if (req.files.image) {
+            let image = req.files.image
+            image.mv('./public/food-images/' + id + '.jpg')
+        }
+    })
+})
+router.get('/delete-food/:id', (req, res) => {
+    let foodId = req.params.id
+    
+    donorHelper.deleteFood(foodId).then((response) => {
+        res.redirect('/donor/list')
+    })
+})
 module.exports = router;

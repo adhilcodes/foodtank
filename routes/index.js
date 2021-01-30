@@ -2,12 +2,16 @@ var express = require('express');
 var router = express.Router();
 var loginHelper = require('../helpers/login-helpers')
 var userHelper = require('../helpers/user-helpers')
+let nodeGeocoder = require('node-geocoder');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   let user = req.session.user
   console.log(user)
-  res.render('index');
+  userHelper.getCount().then((response) => {
+    res.render('index',{response});
+  })
+  
 });
 router.get('/login', function (req, res, next) {
   if (req.session.loggedIn) {
@@ -23,6 +27,7 @@ router.get('/signup', function (req, res, next) {
   res.render('signup');
 });
 router.post('/signup', async (req, res) => {
+  console.log(req.body)
   loginHelper.doSignup(req.body).then((response) => {
     if (response.status) {
       req.session.loggedIn = true
@@ -64,7 +69,7 @@ router.post('/login', async (req, res) => {
 // })
 router.get('/logout', (req, res) => {
   req.session.destroy()
-  res.redirect('/')
+  res.redirect('/login')
 })
 router.get('/profile/:id', (req, res) => {
   let userId = req.params.id
@@ -72,6 +77,23 @@ router.get('/profile/:id', (req, res) => {
     
     res.render('profile',{response})
   })
-  
 })
+router.get('/location', (req, res) => {
+ 
+
+  // let options = {
+  //   provider: 'openstreetmap'
+  // };
+
+  // let geoCoder = nodeGeocoder(options);
+  // geoCoder.geocode('673012 Kozhikode')
+  //   .then((res) => {
+  //     console.log(res);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+    
+  })
+
 module.exports = router;
