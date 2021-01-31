@@ -4,8 +4,10 @@ Foodtank is a sevice platform which is created for connecting the food donours a
 
 ### Application demo
 
-[**click here**](http://node-zero-waste.herokuapp.com/) to see the demo of our project
+
 ![](./extra/demo.gif)
+
+[**click here**](http://node-zero-waste.herokuapp.com/) to see the demo of our project
 
 
 ## overview
