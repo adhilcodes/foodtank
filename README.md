@@ -52,8 +52,8 @@ In this way, we wish to bridge the gap between these issues by connecting people
  - You can now access the application at http://localhost:3000/
 
 ## CONTRIBUTORS
-  [Abdul Adhil PK](adhilcodes.me)    
+  [Abdul Adhil PK](https://adhilcodes.me)    
   
-  [Muhammed Hashir PM](hashirpm.github.io/)
+  [Muhammed Hashir PM](https://hashirpm.github.io/)
 
 Kindly reach out to us if you wish to suggest improvements or provide any other feedback.
